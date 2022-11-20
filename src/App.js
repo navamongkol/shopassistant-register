@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import liff from '@line/liff';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
 
@@ -19,7 +19,7 @@ function App() {
   const initLine = () => {
     liff.init({ liffId: '1657665769-GyvV85jy' }, () => {
       if (liff.isLoggedIn()) {
-        this.runApp();
+        runApp();
       } else {
         liff.login();
       }
@@ -28,7 +28,7 @@ function App() {
 
   const runApp = () => {
     const idToken = liff.getIDToken();
-    this.idToken = idToken;
+    setIdToken(idToken);
     liff.getProfile().then(profile => {
       console.log(profile);
       setDisplayName(profile.displayName);
@@ -45,15 +45,16 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <div style="text-align; center;">
-        <h1>React with LINE login</h1>
+      <div style={{ textAlign: "center" }}>
+        <h1>React with LINE Login test bot1</h1>
+        <hr/>
         <img src={pictureUrl} width="300px" height="300px"/>
-        <p style={{textAlign: "left", marginLeft: "20%"}}>id token : {idToken}</p>
-        <p style={{textAlign: "left", marginLeft: "20%"}}>display name : {displayName}</p>
-        <p style={{textAlign: "left", marginLeft: "20%"}}>status message : {statusMessage}</p>
-        <p style={{textAlign: "left", marginLeft: "20%"}}>user id : { userId }</p>
+        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>id token: </b> {idToken}</p>
+        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>display name: </b> {displayName}</p>
+        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>status message: </b> {statusMessage}</p>
+        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>user id: </b> {userId}</p>
 
-        <button onClick={() => logout()} style={{width:"100%", height:30}}>Logout</button>
+        <button onClick={() => logout()} style={{ width: "100%", height: 30 }}>Logout</button>
       </div>
       </header>
     </div>
