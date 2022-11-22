@@ -26,9 +26,9 @@ function App() {
           "shopeeId" : shopeeId,
     }
     var body = new FormData();
-    body.append('userIdToken', 'John Doe');
-    body.append('userDisplayName', 'Content Writer');
-    body.append('userId', '0xbbbbb');
+    body.append('userIdToken', idToken);
+    body.append('userDisplayName', displayName);
+    body.append('userId', userId);
     body.append('shopeeId', shopeeId);
     fetch('https://asia-southeast1-shopassistant-369117.cloudfunctions.net/insert-user',{
       method: 'POST',
