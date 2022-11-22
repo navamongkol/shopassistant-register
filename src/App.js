@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import liff from '@line/liff';
 import { useEffect, useState } from 'react';
+import done_logo from './done-icon.png'
 
 function App() {
   const axios = require('axios');
@@ -11,30 +12,35 @@ function App() {
   const [statusMessage, setStatusMessage] = useState("");
   const [userId, setUserId] = useState("");
   const [shopeeId, setShopeeId] = useState("");
-  
-  
+
   const logout = () => {
     liff.logout();
     window.location.reload();
   }
 
   const register = () => {
-    const body = {
-      userIdToken : 'John Doe',
-      userDisplayName: 'Content Writer',
-      userId : '0xbbbbb',
-      shopeeId : '2424242342423'
-    };
-  axios.post('https://asia-southeast1-shopassistant-369117.cloudfunctions.net/insert-user', 
-      body)
-    .then((res) => {
-        console.log(`Status: ${res.data}`);
-    }).catch((err) => {
-        console.error(err);
+    const jsonData = {
+          "userIdToken" : idToken,
+          "userDisplayName": displayName,
+          "userId" : userId,
+          "shopeeId" : shopeeId,
+    }
+    var body = new FormData();
+    body.append('userIdToken', 'John Doe');
+    body.append('userDisplayName', 'Content Writer');
+    body.append('userId', '0xbbbbb');
+    body.append('shopeeId', shopeeId);
+    fetch('https://asia-southeast1-shopassistant-369117.cloudfunctions.net/insert-user',{
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type':'application/json'},
+      body: body
+    }).then((response) => {
+      if (response.status === 0) {
+        // console.log("Done");
+        window.close();
+      }
     });
-  
-    console.log("ShoppeId", shopeeId)
-    
   }
 
   const initLine = () => {
@@ -69,11 +75,9 @@ function App() {
       <div style={{ textAlign: "center" }}>
         <h1>Shop Assistant Register</h1>
         <hr/>
+        <img src={done_logo} style={{marginLeft:"auto", marginRight:"auto", width:"50%"}} hidden></img>
         <img src={pictureUrl} width="300px" height="300px"/>
-        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>id token: </b> {idToken}</p>
         <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>display name: </b> {displayName}</p>
-        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>status message: </b> {statusMessage}</p>
-        <p style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}><b>user id: </b> {userId}</p>
         <form style={{ textAlign: "left", marginLeft: "20%", marginRight: "20%", wordBreak: "break-all" }}>
           <label><b>Enter ShopeeId</b>
             <input 
